@@ -8,12 +8,14 @@ public class NoiseChunk {
 
     private int mWidth;
     private int mHeight;
+    private Octave mOctave;
 
     private float[][] mNoiseData;
 
     public NoiseChunk(int width, int height, Octave octave, Noise noise) {
         mWidth = width;
         mHeight = height;
+        mOctave = octave;
 
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("NoiseChunk has wrong size: " + width + "x" + height);
@@ -43,6 +45,12 @@ public class NoiseChunk {
         }
 
         mNoiseData = data;
+    }
+
+
+
+    public Octave octave(){
+        return mOctave;
     }
 
     public int width() {

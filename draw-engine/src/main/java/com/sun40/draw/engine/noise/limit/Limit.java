@@ -9,6 +9,11 @@ public abstract class Limit {
     private float mMin;
     private float mMax;
 
+    public Limit(){
+        mMin = 0f;
+        mMax = 1f;
+    }
+
     public Limit(float min, float max) {
         mMin = min;
         mMax = max;

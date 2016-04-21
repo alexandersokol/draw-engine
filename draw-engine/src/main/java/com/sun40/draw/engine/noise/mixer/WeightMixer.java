@@ -27,7 +27,7 @@ public class WeightMixer extends Mixer {
                 float[] weights = new float[chunks.size()];
                 for (int i = 0; i < noises.length; i++) {
                     noises[i] = chunks.get(i).data()[x][y];
-                    weights[i] = chunks.get(i).width();
+                    weights[i] = chunks.get(i).octave().weight();
                 }
                 data[x][y] = mix(noises, weights);
             }

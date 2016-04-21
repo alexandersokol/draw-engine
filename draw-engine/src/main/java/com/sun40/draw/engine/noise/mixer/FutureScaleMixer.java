@@ -6,30 +6,25 @@ import com.sun40.draw.engine.noise.limit.Limit;
  * Created by Alexander Sokol
  * on 21.04.16.
  */
-public class LoopMixer extends Mixer {
+public class FutureScaleMixer extends Mixer {
 
-    public LoopMixer(Limit limit) {
+
+    public FutureScaleMixer(Limit limit) {
         super(limit);
     }
 
     @Override
     public float mix(float[] noises) {
-        float min = limit().min();
-        float max = limit().max();
         float sum = 0f;
+        float min = limit().max();
+        float max = limit().min();
 
         for (float value : noises) {
             sum += value;
+            min = Math.min(min, value);
+            max = Math.max(max, value);
         }
+        return (sum - min) / (max - min);
 
-        while (sum < min) {
-            sum = max - sum;
-        }
-
-        while (sum > max) {
-            sum = min + (sum - max);
-        }
-
-        return sum;
     }
 }

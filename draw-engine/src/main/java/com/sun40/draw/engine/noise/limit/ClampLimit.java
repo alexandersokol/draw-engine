@@ -6,6 +6,10 @@ package com.sun40.draw.engine.noise.limit;
  */
 public class ClampLimit extends Limit {
 
+    public ClampLimit() {
+        super();
+    }
+
     public ClampLimit(float min, float max) {
         super(min, max);
     }
