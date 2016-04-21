@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.sun40.draw.engine.noise.BasicPerlinNoise;
 import com.sun40.draw.engine.noise.Noise;
 import com.sun40.draw.engine.noise.NoiseChunk;
-import com.sun40.draw.engine.noise.OctaveModel;
+import com.sun40.draw.engine.noise.Octave;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mNoiseView;
 
     Noise noise = new BasicPerlinNoise();
-    OctaveModel octaveModel = new OctaveModel(0, 0, 1f, 1f);
-    NoiseChunk glob = new NoiseChunk(512, 512, octaveModel, noise);
+    Octave mOctave = new Octave(0, 0, 1f, 1f);
+    NoiseChunk glob = new NoiseChunk(512, 512, mOctave, noise);
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void testChunk() {
         Noise noise = new BasicPerlinNoise();
-        OctaveModel octaveModel = new OctaveModel(0, 0, 1f, 1f);
-        NoiseChunk noiseChunk = new NoiseChunk(16, 8, octaveModel, noise);
+        Octave octave = new Octave(0, 0, 1f, 1f);
+        NoiseChunk noiseChunk = new NoiseChunk(16, 8, octave, noise);
 
         float[] noiseFlat = noiseChunk.flatData();
         StringBuilder builder = new StringBuilder();

@@ -11,7 +11,7 @@ public class NoiseChunk {
 
     private float[][] mNoiseData;
 
-    public NoiseChunk(int width, int height, OctaveModel octaveModel, Noise noise) {
+    public NoiseChunk(int width, int height, Octave octave, Noise noise) {
         mWidth = width;
         mHeight = height;
 
@@ -22,11 +22,35 @@ public class NoiseChunk {
         mNoiseData = new float[width][height];
         for (int x = 0; x < mNoiseData.length; x++) {
             for (int y = 0; y < mNoiseData[x].length; y++) {
-                float xx = (x * octaveModel.xScale() / 256.0f) + octaveModel.getXTranslate();
-                float yy = (y * octaveModel.yScale() / 256.0f) + octaveModel.getYTranslate();
-                mNoiseData[x][y] = octaveModel.getNormalization().normalize((float) noise.noise(xx, yy));
+                float xx = (x * octave.xScale() / 256.0f) + octave.xTranslate();
+                float yy = (y * octave.yScale() / 256.0f) + octave.yTranslate();
+                float value = (float) noise.noise(xx, yy);
+                value = octave.normalization().normalize(value);
+                value = octave.limit().lim(value);
+
+                mNoiseData[x][y] = value;
             }
         }
+    }
+
+
+    public NoiseChunk(int width, int height, float[][] data) {
+        mWidth = width;
+        mHeight = height;
+
+        if (width < 1 || height < 1) {
+            throw new IllegalArgumentException("NoiseChunk has wrong size: " + width + "x" + height);
+        }
+
+        mNoiseData = data;
+    }
+
+    public int width() {
+        return mWidth;
+    }
+
+    public int height() {
+        return mHeight;
     }
 
     public float[][] data() {
