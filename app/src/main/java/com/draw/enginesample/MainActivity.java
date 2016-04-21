@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private ImageView mNoiseView;
-
     List<NoiseChunk> mChunks = new ArrayList<>();
 
     @SuppressWarnings("ConstantConditions")
