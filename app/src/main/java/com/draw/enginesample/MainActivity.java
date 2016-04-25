@@ -13,12 +13,10 @@ import com.sun40.draw.engine.noise.Noise;
 import com.sun40.draw.engine.noise.NoiseChunk;
 import com.sun40.draw.engine.noise.Octave;
 import com.sun40.draw.engine.noise.SimplexNoise;
+import com.sun40.draw.engine.noise.WorleyNoiseTemp;
 import com.sun40.draw.engine.noise.limit.ClampLimit;
-import com.sun40.draw.engine.noise.limit.LoopLimit;
-import com.sun40.draw.engine.noise.mixer.CompositeMixer;
 import com.sun40.draw.engine.noise.mixer.MiddleMixer;
 import com.sun40.draw.engine.noise.mixer.Mixer;
-import com.sun40.draw.engine.noise.mixer.EdgeMaxMixer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +46,14 @@ public class MainActivity extends AppCompatActivity {
         Octave mOctave3 = new Octave(11f, -11f, 250f, 250f, 0.5f);
         NoiseChunk glob3 = new NoiseChunk(512, 512, mOctave3, noise3);
 
-        mChunks.add(glob);
-        mChunks.add(glob2);
-        mChunks.add(glob3);
+        Noise noise4 = new WorleyNoiseTemp(new WorleyNoiseTemp.EuclidianDistance());
+        Octave octave4 = new Octave(0, 0, 3.5f, 3.5f, 1.0f);
+        NoiseChunk glob4 = new NoiseChunk(512, 512, octave4, noise4);
+
+//        mChunks.add(glob);
+//        mChunks.add(glob2);
+//        mChunks.add(glob3);
+        mChunks.add(glob4);
 
         mNoiseView = (ImageView) findViewById(R.id.noiseView);
         drawNoise();
@@ -103,13 +106,16 @@ public class MainActivity extends AppCompatActivity {
 
     public static Bitmap createBitmap(List<NoiseChunk> chunks) {
 
-        MiddleMixer middleMixer = new MiddleMixer(new ClampLimit());
-        EdgeMaxMixer edgeMaxMixer = new EdgeMaxMixer(new LoopLimit());
-        List<Mixer> mixers = new ArrayList<>();
-        mixers.add(middleMixer);
-        mixers.add(edgeMaxMixer);
+//        MiddleMixer middleMixer = new MiddleMixer(new ClampLimit());
+//        EdgeMaxMixer edgeMaxMixer = new EdgeMaxMixer(new LoopLimit());
+//        List<Mixer> mixers = new ArrayList<>();
+//        mixers.add(middleMixer);
+//        mixers.add(edgeMaxMixer);
+//
+//        Mixer mixer = new CompositeMixer(new StrongLimit(), mixers);
 
-        Mixer mixer = new CompositeMixer(new ClampLimit(), mixers);
+        Mixer mixer = new MiddleMixer(new ClampLimit());
+
         float[][] noise = mixer.mix(chunks).data();
         Bitmap bitmap = Bitmap.createBitmap(noise.length, noise[0].length, Bitmap.Config.ARGB_8888);
 
