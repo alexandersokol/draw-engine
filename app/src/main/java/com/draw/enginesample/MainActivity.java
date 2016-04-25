@@ -17,6 +17,7 @@ import com.sun40.draw.engine.noise.WorleyNoiseTemp;
 import com.sun40.draw.engine.noise.limit.ClampLimit;
 import com.sun40.draw.engine.noise.mixer.MiddleMixer;
 import com.sun40.draw.engine.noise.mixer.Mixer;
+import com.sun40.draw.engine.noise.normalization.NoNormalization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
         Octave mOctave3 = new Octave(11f, -11f, 250f, 250f, 0.5f);
         NoiseChunk glob3 = new NoiseChunk(512, 512, mOctave3, noise3);
 
-        Noise noise4 = new WorleyNoiseTemp(new WorleyNoiseTemp.EuclidianDistance());
-        Octave octave4 = new Octave(0, 0, 3.5f, 3.5f, 1.0f);
+        Noise noise4 = new WorleyNoiseTemp(new WorleyNoiseTemp.EuclideanDistance());
+        Octave octave4 = new Octave(10f, 6f, 5f, 5f, 1.0f);
+        octave4.setNormalization(new NoNormalization());
         NoiseChunk glob4 = new NoiseChunk(512, 512, octave4, noise4);
 
 //        mChunks.add(glob);

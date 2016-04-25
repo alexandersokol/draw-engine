@@ -35,6 +35,7 @@ public class WorleyNoiseTemp implements Noise {
         float value = 0f;
 
         long lastRandom;
+        double dRand;
         long numberFeaturePoints;
         PointF3D randomDiff = new PointF3D();
         randomDiff.x = 0;
@@ -63,16 +64,18 @@ public class WorleyNoiseTemp implements Noise {
 
                     lastRandom = lcgRandom(hash((cubeX + seed), (cubeY), (cubeZ)));
                     numberFeaturePoints = probLookup(lastRandom);
+                    dRand = dcgRandom(hash((cubeX + seed), (cubeY), (cubeZ)));
+
 
                     for (int l = 0; l < numberFeaturePoints; ++l) {
-                        lastRandom = lcgRandom(lastRandom);
-                        randomDiff.x = lastRandom / 0x100000000L;
+                        dRand = dcgRandom(dRand);
+                        randomDiff.x = (float) (dRand / 0x10000000L);
 
-                        lastRandom = lcgRandom(lastRandom);
-                        randomDiff.y = lastRandom / 0x100000000L;
+                        dRand = dcgRandom(dRand);
+                        randomDiff.y = (float) (dRand / 0x10000000L);
 
-                        lastRandom = lcgRandom(lastRandom);
-                        randomDiff.y = lastRandom / 0x100000000L;
+                        dRand = dcgRandom(dRand);
+                        randomDiff.y = (float) (dRand / 0x10000000L);
 
                         featurePoint.x = randomDiff.x + cubeX;
                         featurePoint.y = randomDiff.y + cubeY;
@@ -126,11 +129,16 @@ public class WorleyNoiseTemp implements Noise {
         return  (((1103515245) * lastValue + (12345)) % 0x100000000L);
     }
 
+    double dcgRandom(double last){
+        return  (((1103515245D) * last + (12345D)) % 0x1000000D);
+    }
+
     long hash(long i, long j, long k) {
         return ((((((OFFSET_BASIS ^ (i)) * FNV_PRIME) ^ (j)) * FNV_PRIME)
                 ^ (k)) * FNV_PRIME);
 
     }
+
 
     long probLookup(long value) {
         if (value < 393325350L) return 1;
@@ -144,7 +152,7 @@ public class WorleyNoiseTemp implements Noise {
         return 9;
     }
 
-    public static class EuclidianDistance implements DistanceFunc {
+    public static class EuclideanDistance implements DistanceFunc {
 
         @Override
         public float distance(PointF3D p1, PointF3D p2) {
@@ -169,7 +177,7 @@ public class WorleyNoiseTemp implements Noise {
             PointF3D diff = new PointF3D();
             diff.x = Math.abs(p1.x - p2.x);
             diff.y = Math.abs(p1.y - p2.y);
-            diff.z = Math.abs(p1.z = p2.z);
+            diff.z = Math.abs(p1.z - p2.z);
 
             return Math.max(Math.max(diff.x, diff.y), diff.z);
         }
