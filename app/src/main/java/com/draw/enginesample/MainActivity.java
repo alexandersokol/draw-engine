@@ -7,13 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.sun40.draw.engine.noise.BasicPerlinNoise;
 import com.sun40.draw.engine.noise.Noise;
 import com.sun40.draw.engine.noise.NoiseChunk;
 import com.sun40.draw.engine.noise.Octave;
 import com.sun40.draw.engine.noise.SimplexNoise;
-import com.sun40.draw.engine.noise.WorleyNoiseTemp;
+import com.sun40.draw.engine.noise.WorleyNoise;
 import com.sun40.draw.engine.noise.limit.ClampLimit;
 import com.sun40.draw.engine.noise.mixer.MiddleMixer;
 import com.sun40.draw.engine.noise.mixer.Mixer;
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         Octave mOctave3 = new Octave(11f, -11f, 250f, 250f, 0.5f);
         NoiseChunk glob3 = new NoiseChunk(512, 512, mOctave3, noise3);
 
-        Noise noise4 = new WorleyNoiseTemp(new WorleyNoiseTemp.EuclideanDistance());
-        Octave octave4 = new Octave(10f, 6f, 5f, 5f, 1.0f);
+        Noise noise4 = new WorleyNoise(new WorleyNoise.EuclideanDistance());
+        Octave octave4 = new Octave(10f, 20f, 3f, 3f, 1.0f);
         octave4.setNormalization(new NoNormalization());
         NoiseChunk glob4 = new NoiseChunk(512, 512, octave4, noise4);
 
@@ -101,8 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void drawNoise() {
         Bitmap bitmap = createBitmap(mChunks);
-        Log.v(TAG, "Bitmap created");
+        Log.v(TAG, "-----------Done-----------");
         mNoiseView.setImageBitmap(bitmap);
+        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
     }
 
 
